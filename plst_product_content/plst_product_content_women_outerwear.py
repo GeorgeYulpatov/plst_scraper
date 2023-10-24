@@ -10,7 +10,7 @@ from fake_useragent import UserAgent
 from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
-THREAD_COUNT = 5  # Настройте это значение в зависимости от возможностей вашего компьютера
+THREAD_COUNT = 5  
 
 
 def setup_driver():
@@ -35,19 +35,15 @@ def download(urls):
             file_image_name = os.path.basename(response.url)
             with open(f'photo_plst/{file_image_name}', 'wb') as f:
                 f.write(response.content)
-            time.sleep(1)  # To avoid hitting the server too hard; adjust as necessary.
+            time.sleep(1) 
             yield file_image_name
 
 
 def scraper(driver, link_to_the_product):
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'lxml')
-
     brand = "PLST"
-
-    # Получение SKU в переводе написан как номер позиции над фото с лево
     sku = re.search(r'\d+', soup.find("p", class_="fr-ec-caption fr-ec-caption--color-secondary fr-ec-text-align-left fr-ec-caption--standard fr-ec-text-transform-normal").text).group()
-    # Получение всей строки с категориями
     breadcrumb = soup.find("ol", class_="fr-ec-breadcrumb-group")
     items = [item.text.strip() for item in breadcrumb.find_all("li")]
     str_category = "/".join(items)
