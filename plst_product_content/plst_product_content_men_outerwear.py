@@ -10,7 +10,7 @@ from fake_useragent import UserAgent
 from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor
 
-THREAD_COUNT = 5  # Настройте это значение в зависимости от возможностей вашего компьютера
+THREAD_COUNT = 5  
 
 
 def setup_driver():
@@ -35,7 +35,7 @@ def download(urls):
             file_image_name = os.path.basename(response.url)
             with open(f'photo_plst/{file_image_name}', 'wb') as f:
                 f.write(response.content)
-            time.sleep(1)  # To avoid hitting the server too hard; adjust as necessary.
+            time.sleep(1)  
             yield file_image_name
 
 
